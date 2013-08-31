@@ -1,11 +1,11 @@
 #include "fds132text.h"
-
+// Empty initialiser, should not yet be used
 fdsScreen::fdsScreen() {
     maxlength = 270;
     first = (fdsString*) calloc(1, sizeof(class fdsString));
 }
 
-
+// Takes a C-style string and puts it in a first string
 fdsScreen::fdsScreen(char initialValue[], int position) {
     maxlength = 270;
     first = (fdsString*) malloc(sizeof(class fdsString));
@@ -14,7 +14,7 @@ fdsScreen::fdsScreen(char initialValue[], int position) {
     first -> set(initialValue);
 }
 
-
+// Set this string to the C-style string supplied
 void fdsString::set(char value[]){
     if (firstNode == 0) {
         firstNode = (fdsStringNode*) malloc(sizeof(fdsStringNode));
@@ -25,6 +25,8 @@ void fdsString::set(char value[]){
 
 }
 
+// Set the value of this nodo to the first character in the arrayy
+// Then do the rest of the nodes recursively
 fdsStringNode* fdsStringNode::set(char *newValue){
     value = charTofdsChar(*newValue);
 
@@ -48,9 +50,12 @@ fdsChar fdsCharB;
 fdsChar fdsCharR;
 fdsChar fdsCharColon;
 fdsChar fdsCharSpace;
+fdsChar fdsCharUnknown;
 
 void initialiseLetters(){
     //include the seperating space
+    // These things are easy to edit if you set your editor to highlight 1
+    // In vim I do "/1" to search for 1 and ":set hlsearch" to highlight it
     fdsCharA.character_map[0]=B00000110;
     fdsCharA.character_map[1]=B00001001; 
     fdsCharA.character_map[2]=B00001001; 
@@ -87,6 +92,15 @@ void initialiseLetters(){
     fdsCharColon.character_map[6]=B00000000;
     fdsCharColon.width=2;
 
+    fdsCharUnknown.character_map[0]=B00000111;
+    fdsCharUnknown.character_map[1]=B00000111;
+    fdsCharUnknown.character_map[2]=B00000111;
+    fdsCharUnknown.character_map[3]=B00000111;
+    fdsCharUnknown.character_map[4]=B00000111;
+    fdsCharUnknown.character_map[5]=B00000111;
+    fdsCharUnknown.character_map[6]=B00000111;
+    fdsCharUnknown.width=4;
+
     fdsCharSpace.width=2;
 }
 
@@ -105,5 +119,7 @@ fdsChar* charTofdsChar(char value){
             return &fdsCharColon;
         case ' ':
             return &fdsCharSpace;
+        default:
+            return &fdsCharUnknown;
     }
 }
