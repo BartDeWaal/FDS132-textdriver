@@ -40,7 +40,7 @@ void loop()
         setDisplay(row, *maintext);                        // haal de te tonen data op.   
         digitalWrite(strobePin, HIGH);                     // update de shiftregisters.  
         digitalWrite (resredPin, HIGH);                    // en zet display terug aan.  
-        delayMicroseconds(2000);                           // pauseren want de update gaat te vlug.   
+        delayMicroseconds(1000);                           // pauseren want de update gaat te vlug.   
     }
 }  
 void setRow (int row)                                  // deze functie kan gebruikt worden voor het multiplexen van de zeven rijen.  
