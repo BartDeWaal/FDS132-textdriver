@@ -3,52 +3,78 @@ Thanks to Rudi Imbrechts (http://arduinows.blogspot.nl/) for the initial example
 Aansturen FDS132 LED matrix bord m.b.v. SPI.  
 Toont karakters op line 0.  
 */  
-#include <SPI.h>                                       // Om snelheid te winnen maken we gebruik van SPI.  
-#include "fds132text.h"                                                      // Daarom halen we de SPI library erbij.  
-                                                       // Pinnen voor het aansturen van het FDS132 bord.  
-const int strobePin = 10;                              // pin voor strobe signaal, ook wel latch genaamd.  
-const int clockPin = 13;                               // pin met clock signaal.  
-const int dataPin = 11;                                // pin voor het serieel sturen van data.  
-const int resredPin = 9;                               // resred, ook wel OutputEnable of OE genoemd.  
-const int row_a = 5;                                   // ieder ledmatrix heeft 7 rijen. Hardwarematig   
-const int row_b = 6;                                   // gebruiken we een 3-naar-8 decoder  
-const int row_c = 7;                                   // type 74HC238 (U4 op het schema).  
-int row;                                               // int voor bijhouden welke rij we aansturen.  
+#include <SPI.h>            // Om snelheid te winnen maken we gebruik van SPI.  
+#include "fds132text.h"     
 
+// Pinnen voor het aansturen van het FDS132 bord.  
+const int strobePin = 10;   // pin voor strobe signaal, ook wel latch genaamd.  
+const int clockPin = 13;    // pin met clock signaal.  
+const int dataPin = 11;     // pin voor het serieel sturen van data.  
+const int resredPin = 9;    // resred, ook wel OutputEnable of OE genoemd.  
+const int row_a = 5;        // ieder ledmatrix heeft 7 rijen. Hardwarematig   
+const int row_b = 6;        // gebruiken we een 3-naar-8 decoder  
+const int row_c = 7;        // type 74HC238 (U4 op het schema).  
+int row;                    // int voor bijhouden welke rij we aansturen.  
+
+const int maxlength = 270;
 
 fdsChar letterA;
+fdsChar letterB;
+fdsChar letterR;
 fdsChar fdsColon;
+fdsChar fdsSpace;
 fdsString maintext;
 
 void initialiseLetters(){
-    letterA.character_map[0]=B00011000;
-    letterA.character_map[1]=B00100100; 
-    letterA.character_map[2]=B00100100; 
-    letterA.character_map[3]=B00111100; 
-    letterA.character_map[4]=B00100100; 
-    letterA.character_map[5]=B01000010; 
-    letterA.character_map[6]=B01000010;
-    letterA.width=8;
-    
+    letterA.character_map[0]=B00001100;
+    letterA.character_map[1]=B00010010; 
+    letterA.character_map[2]=B00010010; 
+    letterA.character_map[3]=B00011110; 
+    letterA.character_map[4]=B00010010; 
+    letterA.character_map[5]=B00100001; 
+    letterA.character_map[6]=B00100001;
+    letterA.width=6;
+
+    letterB.character_map[0]=B00000111;
+    letterB.character_map[1]=B00001001; 
+    letterB.character_map[2]=B00001001; 
+    letterB.character_map[3]=B00000111; 
+    letterB.character_map[4]=B00001001; 
+    letterB.character_map[5]=B00001001; 
+    letterB.character_map[6]=B00000111;
+    letterB.width=4;
+
+    letterR.character_map[0]=B00000111;
+    letterR.character_map[1]=B00001001; 
+    letterR.character_map[2]=B00001001; 
+    letterR.character_map[3]=B00000111; 
+    letterR.character_map[4]=B00001001; 
+    letterR.character_map[5]=B00010001; 
+    letterR.character_map[6]=B00100001;
+    letterR.width=6;
+
     fdsColon.character_map[0]=B00000000;
     fdsColon.character_map[1]=B00000000;
-    fdsColon.character_map[2]=B10000000;
+    fdsColon.character_map[2]=B00000001;
     fdsColon.character_map[3]=B00000000;
-    fdsColon.character_map[4]=B10000000;
+    fdsColon.character_map[4]=B00000001;
     fdsColon.character_map[5]=B00000000;
     fdsColon.character_map[6]=B00000000;
-    fdsColon.width=2;
+    fdsColon.width=1;
+
+    fdsSpace.width=1;
     
-    maintext.value = &letterA;
+    maintext.value = &letterB;
     maintext.rest = 0;
     
-    addToString(&maintext, &fdsColon);
+    addToStringNoSpace(&maintext, &fdsSpace);
+    addToString(&maintext, &letterA);
+    addToString(&maintext, &letterR);
     addToString(&maintext, &fdsColon);
     addToString(&maintext, &letterA);
-    addToString(&maintext, &fdsColon);
 }
 
-void addToString(fdsString *string, fdsChar *addition){
+void addToStringNoSpace(fdsString *string, fdsChar *addition){
     //find end of string
     while(string -> rest != 0) {
         string = string -> rest; 
@@ -58,6 +84,11 @@ void addToString(fdsString *string, fdsChar *addition){
     string = string -> rest;
     string -> value = addition;
     string -> rest = 0;
+}
+
+void addToString(fdsString *string, fdsChar *addition){
+    addToStringNoSpace(string, addition);
+    addToStringNoSpace(string, &fdsSpace);
 }
 
 void setup() {   
@@ -106,7 +137,7 @@ void setDisplay(int row, fdsString outputText)                               // 
 {   
     int i = 0;
     int currentbit = 0;
-    byte outputbytes[34];
+    byte outputbytes[35]; //extra byte for safety
     for(i=0; i<34; i++)  
     {  
        outputbytes[i] = 0;
@@ -114,11 +145,21 @@ void setDisplay(int row, fdsString outputText)                               // 
     
     // unpack the fdsString
     fdsString *current = &outputText;
-    while (i<2000) {
-        i++;
+    fdsChar *currentValue = 0;
+    byte b;
+    while (true) {
         if (current == 0) {break;}
-        outputbytes[currentbit/8] = (*(*current).value).character_map[row];
-        currentbit += 8;
+        if (currentbit > maxlength) {break;}
+        currentValue = (*current).value;
+        b = currentValue -> character_map[row];
+        b = b << (currentbit % 8);
+        outputbytes[currentbit/8] = outputbytes[currentbit/8] | b;
+
+        b = currentValue -> character_map[row];
+        b = b >> (8 - (currentbit % 8));
+
+        outputbytes[(currentbit/8) + 1] = outputbytes[(currentbit/8) + 1] | b;
+        currentbit += currentValue -> width;
         current = current -> rest;
     }
     
@@ -127,5 +168,3 @@ void setDisplay(int row, fdsString outputText)                               // 
     };
 
 }  
-
-
