@@ -47,7 +47,9 @@ void fdsStringNode::setEnd(){
 
 fdsChar fdsCharA;
 fdsChar fdsCharB;
+fdsChar fdsCharE;
 fdsChar fdsCharR;
+fdsChar fdsCharT;
 fdsChar fdsCharColon;
 fdsChar fdsCharSpace;
 fdsChar fdsCharUnknown;
@@ -74,6 +76,15 @@ void initialiseLetters(){
     fdsCharB.character_map[6]=B00000111;
     fdsCharB.width=5;
 
+    fdsCharE.character_map[0]=B00000111;
+    fdsCharE.character_map[1]=B00000001; 
+    fdsCharE.character_map[2]=B00000001; 
+    fdsCharE.character_map[3]=B00000111; 
+    fdsCharE.character_map[4]=B00000001; 
+    fdsCharE.character_map[5]=B00000001; 
+    fdsCharE.character_map[6]=B00000111;
+    fdsCharE.width=4;
+
     fdsCharR.character_map[0]=B00000111;
     fdsCharR.character_map[1]=B00001001; 
     fdsCharR.character_map[2]=B00001001; 
@@ -82,6 +93,15 @@ void initialiseLetters(){
     fdsCharR.character_map[5]=B00001001; 
     fdsCharR.character_map[6]=B00001001;
     fdsCharR.width=5;
+
+    fdsCharT.character_map[0]=B00011111;
+    fdsCharT.character_map[1]=B00000100; 
+    fdsCharT.character_map[2]=B00000100; 
+    fdsCharT.character_map[3]=B00000100; 
+    fdsCharT.character_map[4]=B00000100; 
+    fdsCharT.character_map[5]=B00000100; 
+    fdsCharT.character_map[6]=B00000100;
+    fdsCharT.width=6;
 
     fdsCharColon.character_map[0]=B00000000;
     fdsCharColon.character_map[1]=B00000000;
@@ -112,9 +132,15 @@ fdsChar* charTofdsChar(char value){
         case 'b':
         case 'B':
             return &fdsCharB;
+        case 'e':
+        case 'E':
+            return &fdsCharE;
         case 'r':
         case 'R':
             return &fdsCharR;
+        case 't':
+        case 'T':
+            return &fdsCharT;
         case ':':
             return &fdsCharColon;
         case ' ':
