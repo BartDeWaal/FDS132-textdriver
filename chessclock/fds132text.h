@@ -1,6 +1,7 @@
 #ifndef __FDS132_text_class__
 #define __FDS132_text_class__
 #include <SPI.h> 
+#include "font.h"
 
 const int strobePin = 10;   // pin voor strobe signaal, ook wel latch genaamd.  
 const int clockPin = 13;    // pin met clock signaal.  
@@ -59,8 +60,5 @@ class fdsScreen {
 
 };
 
-// Helper functions that don't have a better place yet.
-void initialiseLetters();
-fdsChar* charTofdsChar(char value);
 
 #endif
