@@ -83,18 +83,29 @@ void fdsStringNode::setEnd(){
 fdsChar fdsCharA;
 fdsChar fdsCharB;
 fdsChar fdsCharC;
+fdsChar fdsCharD;
 fdsChar fdsCharE;
 fdsChar fdsCharF;
+fdsChar fdsCharG;
 fdsChar fdsCharH;
 fdsChar fdsCharI;
+fdsChar fdsCharJ;
 fdsChar fdsCharK;
 fdsChar fdsCharL;
 fdsChar fdsCharM;
+fdsChar fdsCharN;
+fdsChar fdsCharO;
 fdsChar fdsCharP;
+fdsChar fdsCharQ;
 fdsChar fdsCharR;
 fdsChar fdsCharS;
 fdsChar fdsCharT;
 fdsChar fdsCharU;
+fdsChar fdsCharV;
+fdsChar fdsCharW;
+fdsChar fdsCharX;
+fdsChar fdsCharY;
+fdsChar fdsCharZ;
 
 fdsChar fdsChar0;
 fdsChar fdsChar1;
@@ -145,6 +156,15 @@ void initialiseLetters(){
     fdsCharC.character_map[6]=B00000110;
     fdsCharC.width=5;
 
+    fdsCharD.character_map[0]=B00000111;
+    fdsCharD.character_map[1]=B00001001; 
+    fdsCharD.character_map[2]=B00010001; 
+    fdsCharD.character_map[3]=B00010001; 
+    fdsCharD.character_map[4]=B00010001; 
+    fdsCharD.character_map[5]=B00001001; 
+    fdsCharD.character_map[6]=B00000111;
+    fdsCharD.width=6;
+
     fdsCharE.character_map[0]=B00000111;
     fdsCharE.character_map[1]=B00000001; 
     fdsCharE.character_map[2]=B00000001; 
@@ -163,6 +183,15 @@ void initialiseLetters(){
     fdsCharF.character_map[6]=B00000001;
     fdsCharF.width=4;
 
+    fdsCharG.character_map[0]=B00001110;
+    fdsCharG.character_map[1]=B00010001; 
+    fdsCharG.character_map[2]=B00000001; 
+    fdsCharG.character_map[3]=B00000001; 
+    fdsCharG.character_map[4]=B00011101; 
+    fdsCharG.character_map[5]=B00010001; 
+    fdsCharG.character_map[6]=B00001110;
+    fdsCharG.width=6;
+
     fdsCharH.character_map[0]=B00001001;
     fdsCharH.character_map[1]=B00001001; 
     fdsCharH.character_map[2]=B00001001; 
@@ -180,6 +209,15 @@ void initialiseLetters(){
     fdsCharI.character_map[5]=B00000010; 
     fdsCharI.character_map[6]=B00000111;
     fdsCharI.width=4;
+
+    fdsCharJ.character_map[0]=B00001110;
+    fdsCharJ.character_map[1]=B00000100; 
+    fdsCharJ.character_map[2]=B00000100; 
+    fdsCharJ.character_map[3]=B00000100; 
+    fdsCharJ.character_map[4]=B00000100; 
+    fdsCharJ.character_map[5]=B00000101; 
+    fdsCharJ.character_map[6]=B00000010;
+    fdsCharJ.width=5;
 
     fdsCharK.character_map[0]=B00001001;
     fdsCharK.character_map[1]=B00001001; 
@@ -208,6 +246,24 @@ void initialiseLetters(){
     fdsCharM.character_map[6]=B00010001;
     fdsCharM.width=6;
 
+    fdsCharN.character_map[0]=B00010001;
+    fdsCharN.character_map[1]=B00010001; 
+    fdsCharN.character_map[2]=B00010011; 
+    fdsCharN.character_map[3]=B00010101; 
+    fdsCharN.character_map[4]=B00011001; 
+    fdsCharN.character_map[5]=B00010001; 
+    fdsCharN.character_map[6]=B00010001;
+    fdsCharN.width=6;
+
+    fdsCharO.character_map[0]=B00001110;
+    fdsCharO.character_map[1]=B00010001; 
+    fdsCharO.character_map[2]=B00010001; 
+    fdsCharO.character_map[3]=B00010001; 
+    fdsCharO.character_map[4]=B00010001; 
+    fdsCharO.character_map[5]=B00010001; 
+    fdsCharO.character_map[6]=B00001110;
+    fdsCharO.width=6;
+
     fdsCharP.character_map[0]=B00000111;
     fdsCharP.character_map[1]=B00001001; 
     fdsCharP.character_map[2]=B00001001; 
@@ -216,6 +272,15 @@ void initialiseLetters(){
     fdsCharP.character_map[5]=B00000001; 
     fdsCharP.character_map[6]=B00000001;
     fdsCharP.width=5;
+
+    fdsCharQ.character_map[0]=B00001110;
+    fdsCharQ.character_map[1]=B00010001; 
+    fdsCharQ.character_map[2]=B00010001; 
+    fdsCharQ.character_map[3]=B00010001; 
+    fdsCharQ.character_map[4]=B00010001; 
+    fdsCharQ.character_map[5]=B00001001; 
+    fdsCharQ.character_map[6]=B00010110;
+    fdsCharQ.width=6;
 
     fdsCharR.character_map[0]=B00000111;
     fdsCharR.character_map[1]=B00001001; 
@@ -244,14 +309,59 @@ void initialiseLetters(){
     fdsCharT.character_map[6]=B00000100;
     fdsCharT.width=6;
 
-    fdsCharU.character_map[0]=B00010001;
-    fdsCharU.character_map[1]=B00010001; 
-    fdsCharU.character_map[2]=B00010001; 
-    fdsCharU.character_map[3]=B00010001; 
-    fdsCharU.character_map[4]=B00010001; 
-    fdsCharU.character_map[5]=B00010001; 
-    fdsCharU.character_map[6]=B00001110;
-    fdsCharU.width=6;
+    fdsCharU.character_map[0]=B00001001;
+    fdsCharU.character_map[1]=B00001001; 
+    fdsCharU.character_map[2]=B00001001; 
+    fdsCharU.character_map[3]=B00001001; 
+    fdsCharU.character_map[4]=B00001001; 
+    fdsCharU.character_map[5]=B00001001; 
+    fdsCharU.character_map[6]=B00000110;
+    fdsCharU.width=5;
+
+    fdsCharV.character_map[0]=B00010001;
+    fdsCharV.character_map[1]=B00010001; 
+    fdsCharV.character_map[2]=B00010001; 
+    fdsCharV.character_map[3]=B00001010; 
+    fdsCharV.character_map[4]=B00001010; 
+    fdsCharV.character_map[5]=B00001010; 
+    fdsCharV.character_map[6]=B00000100;
+    fdsCharV.width=6;
+
+    fdsCharW.character_map[0]=B00010001;
+    fdsCharW.character_map[1]=B00010101; 
+    fdsCharW.character_map[2]=B00010101; 
+    fdsCharW.character_map[3]=B00010101; 
+    fdsCharW.character_map[4]=B00001010; 
+    fdsCharW.character_map[5]=B00001010; 
+    fdsCharW.character_map[6]=B00001010;
+    fdsCharW.width=6;
+
+    fdsCharX.character_map[0]=B00010001;
+    fdsCharX.character_map[1]=B00010001; 
+    fdsCharX.character_map[2]=B00001010; 
+    fdsCharX.character_map[3]=B00000100; 
+    fdsCharX.character_map[4]=B00001010; 
+    fdsCharX.character_map[5]=B00010001; 
+    fdsCharX.character_map[6]=B00010001;
+    fdsCharX.width=6;
+
+    fdsCharY.character_map[0]=B00010001;
+    fdsCharY.character_map[1]=B00010001; 
+    fdsCharY.character_map[2]=B00001010; 
+    fdsCharY.character_map[3]=B00000100; 
+    fdsCharY.character_map[4]=B00000100; 
+    fdsCharY.character_map[5]=B00000100; 
+    fdsCharY.character_map[6]=B00000100;
+    fdsCharY.width=6;
+
+    fdsCharZ.character_map[0]=B00011111;
+    fdsCharZ.character_map[1]=B00010000; 
+    fdsCharZ.character_map[2]=B00001000; 
+    fdsCharZ.character_map[3]=B00000100; 
+    fdsCharZ.character_map[4]=B00000010; 
+    fdsCharZ.character_map[5]=B00000001; 
+    fdsCharZ.character_map[6]=B00011111;
+    fdsCharZ.width=6;
 
     fdsChar0.character_map[0]=B00001110;
     fdsChar0.character_map[1]=B00010001; 
@@ -402,18 +512,27 @@ fdsChar* charTofdsChar(char value){
         case 'c':
         case 'C':
             return &fdsCharC;
+        case 'd':
+        case 'D':
+            return &fdsCharD;
         case 'e':
         case 'E':
             return &fdsCharE;
         case 'f':
         case 'F':
             return &fdsCharF;
+        case 'g':
+        case 'G':
+            return &fdsCharG;
         case 'h':
         case 'H':
             return &fdsCharH;
         case 'i':
         case 'I':
             return &fdsCharI;
+        case 'j':
+        case 'J':
+            return &fdsCharJ;
         case 'k':
         case 'K':
             return &fdsCharK;
@@ -423,9 +542,18 @@ fdsChar* charTofdsChar(char value){
         case 'm':
         case 'M':
             return &fdsCharM;
+        case 'n':
+        case 'N':
+            return &fdsCharN;
+        case 'o':
+        case 'O':
+            return &fdsCharO;
         case 'p':
         case 'P':
             return &fdsCharP;
+        case 'q':
+        case 'Q':
+            return &fdsCharQ;
         case 'r':
         case 'R':
             return &fdsCharR;
@@ -438,6 +566,21 @@ fdsChar* charTofdsChar(char value){
         case 'u':
         case 'U':
             return &fdsCharU;
+        case 'v':
+        case 'V':
+            return &fdsCharV;
+        case 'w':
+        case 'W':
+            return &fdsCharW;
+        case 'x':
+        case 'X':
+            return &fdsCharX;
+        case 'y':
+        case 'Y':
+            return &fdsCharY;
+        case 'z':
+        case 'Z':
+            return &fdsCharZ;
         case '0':
             return &fdsChar0;
         case '1':

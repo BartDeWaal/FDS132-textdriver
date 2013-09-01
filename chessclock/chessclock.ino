@@ -7,7 +7,7 @@ Aansturen FDS132 LED matrix bord m.b.v. SPI.
 
 
 
-fdsScreen mainScreen = fdsScreen("03:01:02 00:00:00   0123456789", 0);
+fdsScreen mainScreen = fdsScreen("abcdefghijklmnopq  rstuvwxyz123456 7890.,!:", 0);
 
 void setup() {   
    pinMode (strobePin, OUTPUT);                          // zet alle pinnen als output om de shift registers aan te sturen.  
