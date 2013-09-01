@@ -399,13 +399,13 @@ void initialiseLetters(){
     fdsChar3.character_map[6]=B00001110;
     fdsChar3.width=6;
 
-    fdsChar4.character_map[0]=B00010001;
-    fdsChar4.character_map[1]=B00010001; 
-    fdsChar4.character_map[2]=B00010001; 
-    fdsChar4.character_map[3]=B00011111; 
-    fdsChar4.character_map[4]=B00010000; 
-    fdsChar4.character_map[5]=B00010000; 
-    fdsChar4.character_map[6]=B00010000;
+    fdsChar4.character_map[0]=B00001000;
+    fdsChar4.character_map[1]=B00001100; 
+    fdsChar4.character_map[2]=B00001010; 
+    fdsChar4.character_map[3]=B00001001; 
+    fdsChar4.character_map[4]=B00011111; 
+    fdsChar4.character_map[5]=B00001000; 
+    fdsChar4.character_map[6]=B00001000;
     fdsChar4.width=6;
 
     fdsChar5.character_map[0]=B00011111;
