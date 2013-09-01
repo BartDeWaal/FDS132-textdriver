@@ -95,6 +95,18 @@ fdsChar fdsCharR;
 fdsChar fdsCharS;
 fdsChar fdsCharT;
 fdsChar fdsCharU;
+
+fdsChar fdsChar0;
+fdsChar fdsChar1;
+fdsChar fdsChar2;
+fdsChar fdsChar3;
+fdsChar fdsChar4;
+fdsChar fdsChar5;
+fdsChar fdsChar6;
+fdsChar fdsChar7;
+fdsChar fdsChar8;
+fdsChar fdsChar9;
+
 fdsChar fdsCharColon;
 fdsChar fdsCharBang;
 fdsChar fdsCharSpace;
@@ -241,6 +253,96 @@ void initialiseLetters(){
     fdsCharU.character_map[6]=B00001110;
     fdsCharU.width=6;
 
+    fdsChar0.character_map[0]=B00001110;
+    fdsChar0.character_map[1]=B00010001; 
+    fdsChar0.character_map[2]=B00011001; 
+    fdsChar0.character_map[3]=B00010101; 
+    fdsChar0.character_map[4]=B00010011; 
+    fdsChar0.character_map[5]=B00010001; 
+    fdsChar0.character_map[6]=B00001110;
+    fdsChar0.width=6;
+
+    fdsChar1.character_map[0]=B00000100;
+    fdsChar1.character_map[1]=B00000110; 
+    fdsChar1.character_map[2]=B00000101; 
+    fdsChar1.character_map[3]=B00000100; 
+    fdsChar1.character_map[4]=B00000100; 
+    fdsChar1.character_map[5]=B00000100; 
+    fdsChar1.character_map[6]=B00011111;
+    fdsChar1.width=6;
+
+    fdsChar2.character_map[0]=B00001110;
+    fdsChar2.character_map[1]=B00010001; 
+    fdsChar2.character_map[2]=B00010000; 
+    fdsChar2.character_map[3]=B00001000; 
+    fdsChar2.character_map[4]=B00000100; 
+    fdsChar2.character_map[5]=B00000010; 
+    fdsChar2.character_map[6]=B00011111;
+    fdsChar2.width=6;
+
+    fdsChar3.character_map[0]=B00001110;
+    fdsChar3.character_map[1]=B00010001; 
+    fdsChar3.character_map[2]=B00010000; 
+    fdsChar3.character_map[3]=B00001100; 
+    fdsChar3.character_map[4]=B00010000; 
+    fdsChar3.character_map[5]=B00010001; 
+    fdsChar3.character_map[6]=B00001110;
+    fdsChar3.width=6;
+
+    fdsChar4.character_map[0]=B00010001;
+    fdsChar4.character_map[1]=B00010001; 
+    fdsChar4.character_map[2]=B00010001; 
+    fdsChar4.character_map[3]=B00011111; 
+    fdsChar4.character_map[4]=B00010000; 
+    fdsChar4.character_map[5]=B00010000; 
+    fdsChar4.character_map[6]=B00010000;
+    fdsChar4.width=6;
+
+    fdsChar5.character_map[0]=B00011111;
+    fdsChar5.character_map[1]=B00000001; 
+    fdsChar5.character_map[2]=B00000001; 
+    fdsChar5.character_map[3]=B00001110; 
+    fdsChar5.character_map[4]=B00010000; 
+    fdsChar5.character_map[5]=B00010001; 
+    fdsChar5.character_map[6]=B00001110;
+    fdsChar5.width=6;
+
+    fdsChar6.character_map[0]=B00001110;
+    fdsChar6.character_map[1]=B00000001; 
+    fdsChar6.character_map[2]=B00000001; 
+    fdsChar6.character_map[3]=B00001111; 
+    fdsChar6.character_map[4]=B00010001; 
+    fdsChar6.character_map[5]=B00010001; 
+    fdsChar6.character_map[6]=B00001110;
+    fdsChar6.width=6;
+
+    fdsChar7.character_map[0]=B00011111;
+    fdsChar7.character_map[1]=B00010000; 
+    fdsChar7.character_map[2]=B00010000; 
+    fdsChar7.character_map[3]=B00001000; 
+    fdsChar7.character_map[4]=B00000100; 
+    fdsChar7.character_map[5]=B00000010; 
+    fdsChar7.character_map[6]=B00000001;
+    fdsChar7.width=6;
+
+    fdsChar8.character_map[0]=B00001110;
+    fdsChar8.character_map[1]=B00010001; 
+    fdsChar8.character_map[2]=B00010001; 
+    fdsChar8.character_map[3]=B00001110; 
+    fdsChar8.character_map[4]=B00010001; 
+    fdsChar8.character_map[5]=B00010001; 
+    fdsChar8.character_map[6]=B00001110;
+    fdsChar8.width=6;
+
+    fdsChar9.character_map[0]=B00001110;
+    fdsChar9.character_map[1]=B00010001; 
+    fdsChar9.character_map[2]=B00010001; 
+    fdsChar9.character_map[3]=B00011110; 
+    fdsChar9.character_map[4]=B00010000; 
+    fdsChar9.character_map[5]=B00010001; 
+    fdsChar9.character_map[6]=B00001110;
+    fdsChar9.width=6;
+
     fdsCharColon.character_map[0]=B00000000;
     fdsCharColon.character_map[1]=B00000000;
     fdsCharColon.character_map[2]=B00000001;
@@ -336,6 +438,26 @@ fdsChar* charTofdsChar(char value){
         case 'u':
         case 'U':
             return &fdsCharU;
+        case '0':
+            return &fdsChar0;
+        case '1':
+            return &fdsChar1;
+        case '2':
+            return &fdsChar2;
+        case '3':
+            return &fdsChar3;
+        case '4':
+            return &fdsChar4;
+        case '5':
+            return &fdsChar5;
+        case '6':
+            return &fdsChar6;
+        case '7':
+            return &fdsChar7;
+        case '8':
+            return &fdsChar8;
+        case '9':
+            return &fdsChar9;
         case ':':
             return &fdsCharColon;
         case '\'':
