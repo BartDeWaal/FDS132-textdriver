@@ -5,8 +5,6 @@ Aansturen FDS132 LED matrix bord m.b.v. SPI.
 #include <SPI.h>            // Om snelheid te winnen maken we gebruik van SPI.  
 #include "fds132text.h"     
 
-
-
 fdsScreen mainScreen = fdsScreen("abcdefghijklmnopq  rstuvwxyz123456 7890.,!:", 0);
 
 void setup() {   
@@ -27,11 +25,5 @@ void setup() {
 void loop()  
 {  
     mainScreen.display();
-}  
-void setRow (int row)                                  // deze functie kan gebruikt worden voor het multiplexen van de zeven rijen.  
-{  
-    digitalWrite (row_a, row & 1);                        // zet decimale waarden 0 tot 7 om naar binaire waarden (000 - 111)   
-    digitalWrite (row_b, row & 2);                        // om de corresponderende rowpinnen die de matrixlijnen aansturen   
-    digitalWrite (row_c, row & 4);                        // te activeren.  
 }  
 
