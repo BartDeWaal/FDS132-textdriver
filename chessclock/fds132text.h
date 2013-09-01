@@ -51,7 +51,6 @@ const int fdsmaxlength = 270;
 // Holds the whole screen. In the future it will also manage output to the screen
 class fdsScreen {
     public:
-        fdsScreen();
         fdsScreen(char initialValue[], int position);
         int maxlength;
         fdsString *first;

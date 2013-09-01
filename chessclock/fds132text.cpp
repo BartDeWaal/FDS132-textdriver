@@ -1,9 +1,4 @@
 #include "fds132text.h"
-// Empty initialiser, should not yet be used
-fdsScreen::fdsScreen() {
-    maxlength = 270;
-    first = (fdsString*) calloc(1, sizeof(class fdsString));
-}
 
 // Takes a C-style string and puts it in a first string
 fdsScreen::fdsScreen(char initialValue[], int position) {
