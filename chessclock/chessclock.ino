@@ -26,31 +26,12 @@ void setup() {
 }  
 void loop()  
 {  
-    for (int row=0; row<7; row++)                            // rij teller.  
-    {   
-        digitalWrite(strobePin, LOW);                      // strobePin laag opdat de LEDs niet wijzigen als we de bits doorsturen.  
-        digitalWrite (resredPin, LOW);                     // en we doven de display om ghosting te voorkomen.  
-        setRow(row);                                       // we sturen alle zeven rijen aan.  
-        for(int i=34; i>=0; i--){
-            SPI.transfer(mainScreen.output[row][i]);   
-        };
-        digitalWrite(strobePin, HIGH);                     // update de shiftregisters.  
-        digitalWrite (resredPin, HIGH);                    // en zet display terug aan.  
-        delayMicroseconds(2500);                           // pauseren want de update gaat te vlug.   
-    }
+    mainScreen.display();
 }  
 void setRow (int row)                                  // deze functie kan gebruikt worden voor het multiplexen van de zeven rijen.  
 {  
     digitalWrite (row_a, row & 1);                        // zet decimale waarden 0 tot 7 om naar binaire waarden (000 - 111)   
     digitalWrite (row_b, row & 2);                        // om de corresponderende rowpinnen die de matrixlijnen aansturen   
     digitalWrite (row_c, row & 4);                        // te activeren.  
-}  
-void zeroDisplay()                                     // deze functie zet alle uitgangen v/d shiftregisters op nul,  
-{                                                      // waardoor alle LED's doven  
-    int i;  
-    for(i=0; i<34; i++)  
-    {  
-        SPI.transfer(0);                                     // door 34 keer een byte met waarde nul te sturen.  
-    }  
 }  
 

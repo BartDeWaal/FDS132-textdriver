@@ -59,6 +59,39 @@ void fdsScreen::update() {
         current = current -> next;
     }
 }
+void fdsScreen::zeroDisplay() //Clear the display
+{                           
+    for(int i=0; i<34; i++)  
+    {  
+        SPI.transfer(0);    
+    }  
+}  
+
+void fdsScreen::display() //Display the current string
+{                           
+    for (int row=0; row<7; row++)                            // rij teller.  
+    {   
+        digitalWrite(strobePin, LOW);                      // strobePin laag opdat de LEDs niet wijzigen als we de bits doorsturen.  
+        digitalWrite (resredPin, LOW);                     // en we doven de display om ghosting te voorkomen.  
+        setRow(row);                                       // we sturen alle zeven rijen aan.  
+        for(int i=34; i>=0; i--){
+            SPI.transfer(output[row][i]);   
+        };
+        digitalWrite(strobePin, HIGH);                     // update de shiftregisters.  
+        digitalWrite (resredPin, HIGH);                    // en zet display terug aan.  
+        delayMicroseconds(2500);                           // pauseren want de update gaat te vlug.   
+    }
+
+}  
+
+// The LED screen only shows 1 (out of 7) rows at a time. This activates the row
+// (The full screen is shown by quickly alternating between these)
+void fdsScreen::setRow (int row)
+{  
+    digitalWrite (row_a, row & 1);
+    digitalWrite (row_b, row & 2);
+    digitalWrite (row_c, row & 4);
+}  
 
 // Set the value of this nodo to the first character in the arrayy
 // Then do the rest of the nodes recursively

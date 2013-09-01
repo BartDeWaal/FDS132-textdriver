@@ -49,11 +49,15 @@ class fdsString {
 
 const int fdsmaxlength = 270;
 
-// Holds the whole screen. In the future it will also manage output to the screen
+// Holds the whole screen, and manages the output
 class fdsScreen {
+    private:
+        void setRow(int row);
     public:
         fdsScreen(char initialValue[], int position);
         void update();
+        void zeroDisplay(); 
+        void display();
         int maxlength;
         fdsString *first;
         byte output[7][35];
