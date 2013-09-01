@@ -5,9 +5,10 @@ Aansturen FDS132 LED matrix bord m.b.v. SPI.
 #include <SPI.h>            // Om snelheid te winnen maken we gebruik van SPI.  
 #include "fds132text.h"     
 
-fdsScreen mainScreen = fdsScreen("abcdefghijklmnopq  rstuvwxyz123456 7890.,!:", 0);
+fdsScreen mainScreen;
 
 void setup() {   
+
     pinMode (strobePin, OUTPUT); // zet alle pinnen als output om de shift registers aan te sturen.  
     pinMode (clockPin, OUTPUT);  
     pinMode (dataPin, OUTPUT);  
@@ -20,6 +21,8 @@ void setup() {
     SPI.begin();  // start the SPI library
     SPI.setBitOrder(MSBFIRST);  //Code was written for this 
     initialiseLetters() ; // I haven't figured out the smart way to set all the letter variables to the value I want yet.
+    mainScreen.addString("Dat was lekker eten",0);
+    mainScreen.addString("Yeah! Echt Lekker",252);
     mainScreen.update();
 }  
 void loop()  

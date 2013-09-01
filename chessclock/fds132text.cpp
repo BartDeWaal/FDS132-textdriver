@@ -1,12 +1,32 @@
 #include "fds132text.h"
 
-// Takes a C-style string and puts it in a first string
-fdsScreen::fdsScreen(char initialValue[], int position) {
+fdsScreen::fdsScreen(){
     maxlength = 270;
-    first = (fdsString*) malloc(sizeof(class fdsString));
-    first -> startLocation = position;
-    first -> firstNode = 0;
-    first -> set(initialValue);
+    first = 0;
+}
+
+// Takes a C-style string and puts it in the list of fdsStrings
+void fdsScreen::addString(char initialValue[], int position) {
+    fdsString* newString;
+    newString = (fdsString*) malloc(sizeof(class fdsString));
+    if (first == 0){
+        first = newString;
+        newString -> next = 0;
+    }
+    else {
+        fdsString* stringNavigator = first;
+        while((stringNavigator -> next != 0)  //The loop should quit if there is no next item
+                && (((stringNavigator -> next) -> startLocation) < position)) // also if the next item has a bigger start position
+        { 
+            stringNavigator = stringNavigator -> next;
+        }
+
+        newString -> next = stringNavigator -> next;
+        stringNavigator -> next = newString;
+    }
+    newString -> startLocation = position;
+    newString -> firstNode = 0;
+    newString -> set(initialValue);
     update();
 }
 
@@ -21,24 +41,41 @@ void fdsString::set(char value[]){
 
 }
 
+int fdsString::nextStart(){
+    if (next == 0){
+        return 271;
+    }
+
+    return (next -> startLocation);
+
+}
+
 void fdsScreen::update() {
     int currentbit = 0; //The location (from 0 to 270) we are currently writing at.
-    int row; //The row we are currently writing at
-    fdsStringNode *current = first -> firstNode; // pointer to the bit of the string we are converting into our output right now
-    fdsChar *currentValue = 0; // Pointer to the Character object current is pointing to.
-    byte b; //The bits that we are currently inserting into the array.
-
+    fdsString *current = first; // pointer to the string we are converting into our output right now
 
     //clear the output
     memset(output, 0, sizeof(output[0][0]) * 35 * 7);
 
+    while (current != 0){
+        updateFromfdsStringNode(current -> firstNode, current -> startLocation, current -> nextStart());
+        current = current -> next;
+    }
+
+
+}
+
+void fdsScreen::updateFromfdsStringNode(fdsStringNode *current, int currentbit, int endbit){
+    fdsChar *currentValue = 0; // Pointer to the Character object current is pointing to.
+    byte b; //The bits that we are currently inserting into the array.
     while (true) {
         if (current == 0) {break;} // We should end if we have reached the end of the string (last stringnode)
         if (currentbit > maxlength) {break;} // We should end if we have reached the end of the screen
+        if (currentbit > endbit) {break;} // We should end if we have reached the end of the screen
 
         // set b to the byte that cointains (at the end) the bits needed to display this part of the current character
         currentValue = (*current).value;
-        for (row = 0; row < 7; row++){
+        for (int row = 0; row < 7; row++){
             b = currentValue -> character_map[row];
 
             // integer division in C always rounds down, so currentbit/8 gives us the right byte to write to
@@ -58,7 +95,17 @@ void fdsScreen::update() {
         // and load our next character
         current = current -> next;
     }
+    // clean up what is left over after the endbit
+    for (int row = 0; row < 7; row++){
+        // Make sure the byte after the endbit is empty
+        output[row][(endbit/8)+1] = 0;
+        output[row][endbit/8] = output[row][endbit/8] & (B11111111 >> (8 - (endbit % 8)));
+    
+    }
+
+
 }
+
 void fdsScreen::zeroDisplay() //Clear the display
 {                           
     for(int i=0; i<34; i++)  

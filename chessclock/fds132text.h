@@ -40,6 +40,7 @@ class fdsStringNode {
 class fdsString {
     public:
         void set(char value[]); // this will write/overwrite the string contained in this holder
+        int nextStart(); // Return the startpoint of the next string, if applicable
         fdsStringNode *firstNode;
         fdsStringNode *lastNode;
         int startLocation; // The starting address on the board
@@ -52,9 +53,10 @@ class fdsString {
 class fdsScreen {
     private:
         void setRow(int row);
+        void updateFromfdsStringNode(fdsStringNode *current, int currentbit, int endbit);
     public:
-        //fdsScreen(); //This should not actually be used, but there is no good way to declare a global screen without it.
-        fdsScreen(char initialValue[], int position);
+        fdsScreen(); 
+        void addString(char initialValue[], int position);
         void update();
         void zeroDisplay(); 
         void display();
