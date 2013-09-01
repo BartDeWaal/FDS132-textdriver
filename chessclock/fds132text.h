@@ -52,9 +52,10 @@ const int fdsmaxlength = 270;
 class fdsScreen {
     public:
         fdsScreen(char initialValue[], int position);
+        void update();
         int maxlength;
         fdsString *first;
-        byte output[35];
+        byte output[7][35];
 
 };
 
