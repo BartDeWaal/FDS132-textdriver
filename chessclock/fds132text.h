@@ -17,9 +17,9 @@ const int row_c = 7;        // type 74HC238 (U4 op het schema).
 // you want to display on the FDS132
 class fdsChar {
     public:
-    byte character_map[7];
-    int width; //up to 8
-    // If you want characters wider than 8 you should combine two differnt characters
+        byte character_map[7];
+        int width; //up to 8
+        // If you want characters wider than 8 you should combine two differnt characters
 };
 
 
@@ -29,9 +29,9 @@ class fdsStringNode {
     public:
         fdsStringNode* set(char *value);
         void setEnd(); // Use this function to make this node the last
-                       // It will free all further nodes
-    fdsChar *value;
-    fdsStringNode *next;
+        // It will free all further nodes
+        fdsChar *value;
+        fdsStringNode *next;
 };
 
 // This is the container for the stringNodes, allowing us faster access to the last node

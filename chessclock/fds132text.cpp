@@ -470,7 +470,7 @@ void initialiseLetters(){
     fdsCharSingleQuote.character_map[5]=B00000000;
     fdsCharSingleQuote.character_map[6]=B00000000;
     fdsCharSingleQuote.width=2;
-    
+
     fdsCharComma.character_map[0]=B00000000;
     fdsCharComma.character_map[1]=B00000000;
     fdsCharComma.character_map[2]=B00000000;
