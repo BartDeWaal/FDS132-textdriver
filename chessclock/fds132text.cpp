@@ -34,7 +34,7 @@ void fdsScreen::update() {
 
     while (true) {
         if (current == 0) {break;} // We should end if we have reached the end of the string (last stringnode)
-        if (currentbit > fdsmaxlength) {break;} // We should end if we have reached the end of the screen
+        if (currentbit > maxlength) {break;} // We should end if we have reached the end of the screen
 
         // set b to the byte that cointains (at the end) the bits needed to display this part of the current character
         currentValue = (*current).value;

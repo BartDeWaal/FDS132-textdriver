@@ -47,13 +47,13 @@ class fdsString {
 };
 
 
-const int fdsmaxlength = 270;
 
 // Holds the whole screen, and manages the output
 class fdsScreen {
     private:
         void setRow(int row);
     public:
+        //fdsScreen(); //This should not actually be used, but there is no good way to declare a global screen without it.
         fdsScreen(char initialValue[], int position);
         void update();
         void zeroDisplay(); 
