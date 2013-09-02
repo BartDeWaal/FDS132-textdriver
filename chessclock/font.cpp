@@ -40,6 +40,7 @@ fdsChar fdsChar9;
 
 fdsChar fdsCharColon;
 fdsChar fdsCharBang;
+fdsChar fdsCharDash;
 fdsChar fdsCharSpace;
 fdsChar fdsCharComma;
 fdsChar fdsCharSingleQuote;
@@ -391,6 +392,15 @@ void initialiseLetters(){
     fdsCharSingleQuote.character_map[6]=B00000000;
     fdsCharSingleQuote.width=2;
 
+    fdsCharDash.character_map[0]=B00000000;
+    fdsCharDash.character_map[1]=B00000000;
+    fdsCharDash.character_map[2]=B00000000;
+    fdsCharDash.character_map[3]=B00001111;
+    fdsCharDash.character_map[4]=B00000000;
+    fdsCharDash.character_map[5]=B00000000;
+    fdsCharDash.character_map[6]=B00000000;
+    fdsCharDash.width=5;
+
     fdsCharComma.character_map[0]=B00000000;
     fdsCharComma.character_map[1]=B00000000;
     fdsCharComma.character_map[2]=B00000000;
@@ -523,6 +533,8 @@ fdsChar* charTofdsChar(char value){
             return &fdsChar9;
         case ':':
             return &fdsCharColon;
+        case '-':
+            return &fdsCharDash;
         case '\'':
             return &fdsCharSingleQuote;
         case ',':
