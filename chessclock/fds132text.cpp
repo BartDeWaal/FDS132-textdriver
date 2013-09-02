@@ -35,33 +35,66 @@ void fdsScreen::setPins(int p_strobePin, int p_clockPin, int p_dataPin, int p_ro
 fdsString* fdsScreen::addString(char initialValue[], int position) {
     fdsString* newString;
     newString = (fdsString*) malloc(sizeof(class fdsString));
+    newString -> startLocation = position;
+
+    placeString(newString);
+
+    newString -> firstNode = 0;
+    newString -> set(initialValue);
+    return newString;
+}
+
+// Takes a fdsChar and puts it in the list of fdsStrings
+fdsString* fdsScreen::addString(fdsChar *value, int position) {
+    fdsString* newString;
+    newString = (fdsString*) malloc(sizeof(class fdsString));
+    newString -> startLocation = position;
+
+    placeString(newString);
+
+    newString -> firstNode = 0;
+    newString -> set(value);
+    return newString;
+}
+
+// Place the string in the right location
+void fdsScreen::placeString(fdsString* theString) {
+    int position = theString -> startLocation;
+
     if (first == 0){ //if there is no string yet
-        first = newString;
-        newString -> next = 0;
+        first = theString;
+        theString -> next = 0;
     }
     else { // If there is already a string
         fdsString* stringNavigator = first;
 
         // Find the place where the string should be, as the strings should be ordered by position
-        while((stringNavigator -> next != 0)  //The loop should quit if there is no next item, in which case newString should be last
+        while((stringNavigator -> next != 0)  //The loop should quit if there is no next item, in which case theString should be last
                 && (((stringNavigator -> next) -> startLocation) < position)) // also if the next item has a bigger start position, 
                                                                               // so we found the right position
         { 
             stringNavigator = stringNavigator -> next;
         }
 
-        newString -> next = stringNavigator -> next;
-        stringNavigator -> next = newString;
+        theString -> next = stringNavigator -> next;
+        stringNavigator -> next = theString;
     }
-    newString -> startLocation = position;
-    newString -> firstNode = 0;
-    newString -> set(initialValue);
-    return newString;
 }
 
 // Set this string to the C-style string supplied
 // If there is already a string it will be overwritten
 void fdsString::set(char value[]){
+    if (firstNode == 0) { // If there is no string make a node for the fist character
+        firstNode = (fdsStringNode*) malloc(sizeof(fdsStringNode));
+        firstNode -> next = 0;
+    }
+
+    lastNode = firstNode -> set(value);
+
+}
+
+// Set a string to a character
+void fdsString::set(fdsChar *value){
     if (firstNode == 0) { // If there is no string make a node for the fist character
         firstNode = (fdsStringNode*) malloc(sizeof(fdsStringNode));
         firstNode -> next = 0;
@@ -189,6 +222,15 @@ fdsStringNode* fdsStringNode::set(char *newValue){
         next -> next = NULL;
     }
     return next -> set(newValue + sizeof(char));
+}
+
+// Set a node to a character, and make that node the last one
+fdsStringNode* fdsStringNode::set(fdsChar *newValue){
+    value = newValue;
+
+    //We know it's only one value long, so we can just end it here
+    setEnd();
+    return this;
 }
 
 // Free the memory used by the rest of the string and NULL the pointer

@@ -20,7 +20,8 @@ class fdsChar {
 // If you don't understand look up a linked list
 class fdsStringNode {
     public:
-        fdsStringNode* set(char *value);
+        fdsStringNode* set(char *newValue);
+        fdsStringNode* set(fdsChar *newValue);
         void setEnd(); // Use this function to make this node the last
         // It will free all further nodes
         fdsChar *value;
@@ -32,6 +33,7 @@ class fdsStringNode {
 class fdsString {
     public:
         void set(char value[]); // this will write/overwrite the string contained in this holder
+        void set(fdsChar* value); // this will write/overwrite the string contained in this holder
         int nextStart(); // Return the startpoint of the next string, if applicable
         fdsStringNode *firstNode;
         fdsStringNode *lastNode;
@@ -46,6 +48,7 @@ class fdsScreen {
         fdsString *first; // The first string, it has a pointer to the next one
         void setRow(int row);
         void updateFromfdsStringNode(fdsStringNode *current, int currentbit, int endbit);
+        void placeString(fdsString* theString);
         int strobePin;   
         int clockPin;    
         int dataPin;     
