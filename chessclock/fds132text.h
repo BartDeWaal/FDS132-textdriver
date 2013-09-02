@@ -56,7 +56,7 @@ class fdsScreen {
         void updateFromfdsStringNode(fdsStringNode *current, int currentbit, int endbit);
     public:
         fdsScreen(); 
-        void addString(char initialValue[], int position);
+        fdsString* addString(char initialValue[], int position);
         void update();
         void zeroDisplay(); 
         void display();

@@ -6,7 +6,7 @@ fdsScreen::fdsScreen(){
 }
 
 // Takes a C-style string and puts it in the list of fdsStrings
-void fdsScreen::addString(char initialValue[], int position) {
+fdsString* fdsScreen::addString(char initialValue[], int position) {
     fdsString* newString;
     newString = (fdsString*) malloc(sizeof(class fdsString));
     if (first == 0){
@@ -28,6 +28,7 @@ void fdsScreen::addString(char initialValue[], int position) {
     newString -> firstNode = 0;
     newString -> set(initialValue);
     update();
+    return newString;
 }
 
 // Set this string to the C-style string supplied
@@ -157,6 +158,13 @@ fdsStringNode* fdsStringNode::set(char *newValue){
 }
 
 void fdsStringNode::setEnd(){
+    if (next == NULL){
+        return;
+    }
+
+    next -> setEnd();
+    free(next);
+    next = NULL;
 
 }
 
