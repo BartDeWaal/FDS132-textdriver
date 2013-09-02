@@ -1,22 +1,51 @@
 #include "fds132text.h"
 
 fdsScreen::fdsScreen(){
-    maxlength = 270;
-    first = 0;
+    first = NULL; //make sure it's a null pointer
+}
+
+void fdsScreen::setPins(){
+    // using the defaults from the example setup
+    setPins(10,13,11,7,6,5,9,2000);
+}
+
+void fdsScreen::setPins(int p_strobePin, int p_clockPin, int p_dataPin, int p_row_c, int p_row_b, int p_row_a, int p_resredPin, int p_delay){
+    strobePin = p_strobePin;
+    clockPin  = p_clockPin;
+    dataPin = p_dataPin;  
+    resredPin = p_resredPin;
+    row_a = p_row_a;
+    row_b = p_row_b;
+    row_c = p_row_c;
+    delay = p_delay;
+    pinMode (strobePin, OUTPUT); 
+    pinMode (clockPin, OUTPUT);  
+    pinMode (dataPin, OUTPUT);  
+    pinMode (row_c, OUTPUT);  
+    pinMode (row_b, OUTPUT);  
+    pinMode (row_a, OUTPUT);  
+    pinMode (resredPin, OUTPUT);  
+    digitalWrite (resredPin, HIGH);
+    digitalWrite (strobePin, LOW); 
+    SPI.begin();  // start the SPI library
+    SPI.setBitOrder(MSBFIRST);  //Code was written for this bit Order
 }
 
 // Takes a C-style string and puts it in the list of fdsStrings
 fdsString* fdsScreen::addString(char initialValue[], int position) {
     fdsString* newString;
     newString = (fdsString*) malloc(sizeof(class fdsString));
-    if (first == 0){
+    if (first == 0){ //if there is no string yet
         first = newString;
         newString -> next = 0;
     }
-    else {
+    else { // If there is already a string
         fdsString* stringNavigator = first;
-        while((stringNavigator -> next != 0)  //The loop should quit if there is no next item
-                && (((stringNavigator -> next) -> startLocation) < position)) // also if the next item has a bigger start position
+
+        // Find the place where the string should be, as the strings should be ordered by position
+        while((stringNavigator -> next != 0)  //The loop should quit if there is no next item, in which case newString should be last
+                && (((stringNavigator -> next) -> startLocation) < position)) // also if the next item has a bigger start position, 
+                                                                              // so we found the right position
         { 
             stringNavigator = stringNavigator -> next;
         }
@@ -27,13 +56,13 @@ fdsString* fdsScreen::addString(char initialValue[], int position) {
     newString -> startLocation = position;
     newString -> firstNode = 0;
     newString -> set(initialValue);
-    update();
     return newString;
 }
 
 // Set this string to the C-style string supplied
+// If there is already a string it will be overwritten
 void fdsString::set(char value[]){
-    if (firstNode == 0) {
+    if (firstNode == 0) { // If there is no string make a node for the fist character
         firstNode = (fdsStringNode*) malloc(sizeof(fdsStringNode));
         firstNode -> next = 0;
     }
@@ -42,6 +71,8 @@ void fdsString::set(char value[]){
 
 }
 
+// Outputs the point where this string should stop displaying.
+// Either the end of the screen or the start of the next string
 int fdsString::nextStart(){
     if (next == 0){
         return 271;
@@ -51,14 +82,15 @@ int fdsString::nextStart(){
 
 }
 
+// Chage the output array to what's currently in the strings
 void fdsScreen::update() {
-    int currentbit = 0; //The location (from 0 to 270) we are currently writing at.
     fdsString *current = first; // pointer to the string we are converting into our output right now
 
     //clear the output
     memset(output, 0, sizeof(output[0][0]) * 35 * 7);
 
-    while (current != 0){
+    while (current != 0){ // if we still have at least one string to go
+        // put it on the buffer starting at it's start
         updateFromfdsStringNode(current -> firstNode, current -> startLocation, current -> nextStart());
         current = current -> next;
     }
@@ -71,8 +103,7 @@ void fdsScreen::updateFromfdsStringNode(fdsStringNode *current, int currentbit, 
     byte b; //The bits that we are currently inserting into the array.
     while (true) {
         if (current == 0) {break;} // We should end if we have reached the end of the string (last stringnode)
-        if (currentbit > maxlength) {break;} // We should end if we have reached the end of the screen
-        if (currentbit > endbit) {break;} // We should end if we have reached the end of the screen
+        if (currentbit > endbit) {break;} // We should end if we have reached the end of the bit
 
         // set b to the byte that cointains (at the end) the bits needed to display this part of the current character
         currentValue = (*current).value;
@@ -115,19 +146,21 @@ void fdsScreen::zeroDisplay() //Clear the display
     }  
 }  
 
-void fdsScreen::display() //Display the current string
+void fdsScreen::display() //Display the current fdsScreen::output array
 {                           
-    for (int row=0; row<7; row++)                            // rij teller.  
+    for (int row=0; row<7; row++) // The screen can only display one line at a time,
+                                  // We can make it look like it can write them all by writing quickly
+                 
     {   
-        digitalWrite(strobePin, LOW);                      // strobePin laag opdat de LEDs niet wijzigen als we de bits doorsturen.  
-        digitalWrite (resredPin, LOW);                     // en we doven de display om ghosting te voorkomen.  
-        setRow(row);                                       // we sturen alle zeven rijen aan.  
+        digitalWrite(strobePin, LOW);    // strobePin LOW so the LEDs don't change when we send the bits.
+        digitalWrite (resredPin, LOW);   // dim the display to prevent ghosting.  
+        setRow(row);
         for(int i=34; i>=0; i--){
-            SPI.transfer(output[row][i]);   
+            SPI.transfer(output[row][i]);
         };
-        digitalWrite(strobePin, HIGH);                     // update de shiftregisters.  
-        digitalWrite (resredPin, HIGH);                    // en zet display terug aan.  
-        delayMicroseconds(2500);                           // pauseren want de update gaat te vlug.   
+        digitalWrite(strobePin, HIGH);   // update the shiftregisters.  
+        digitalWrite (resredPin, HIGH);  // turn the display back on.  
+        delayMicroseconds(delay);         // pause, because otherwise it will update too quickly
     }
 
 }  
@@ -141,22 +174,24 @@ void fdsScreen::setRow (int row)
     digitalWrite (row_c, row & 4);
 }  
 
-// Set the value of this nodo to the first character in the arrayy
+// Set the value of this node to the first character in the array
 // Then do the rest of the nodes recursively
 fdsStringNode* fdsStringNode::set(char *newValue){
     value = charTofdsChar(*newValue);
 
-    if (*(newValue + sizeof(char))==0) {
+    if (*(newValue + sizeof(char))==0) { // C-strings are null teminated. If the next character is 0 this
+                                         // is the end of the string.
         setEnd();
         return this;
     }
-    if (next == 0){
+    if (next == NULL){ // make more memory availible for the next bit of the string
         next = (fdsStringNode*) malloc(sizeof(fdsStringNode));
-        next -> next = 0;
+        next -> next = NULL;
     }
     return next -> set(newValue + sizeof(char));
 }
 
+// Free the memory used by the rest of the string and NULL the pointer
 void fdsStringNode::setEnd(){
     if (next == NULL){
         return;

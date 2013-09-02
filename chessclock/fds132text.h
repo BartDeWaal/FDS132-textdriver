@@ -3,14 +3,6 @@
 #include <SPI.h> 
 #include "font.h"
 
-const int strobePin = 10;   // pin voor strobe signaal, ook wel latch genaamd.  
-const int clockPin = 13;    // pin met clock signaal.  
-const int dataPin = 11;     // pin voor het serieel sturen van data.  
-const int resredPin = 9;    // resred, ook wel OutputEnable of OE genoemd.  
-const int row_a = 5;        // ieder ledmatrix heeft 7 rijen. Hardwarematig   
-const int row_b = 6;        // gebruiken we een 3-naar-8 decoder  
-const int row_c = 7;        // type 74HC238 (U4 op het schema).  
-
 // This is a character that our output function can use to write.
 // It has every row encoded in a byte, and we record the width of the byte
 // The width is inluding a space
@@ -48,23 +40,38 @@ class fdsString {
 };
 
 
-
 // Holds the whole screen, and manages the output
 class fdsScreen {
     private:
+        fdsString *first; // The first string, it has a pointer to the next one
         void setRow(int row);
         void updateFromfdsStringNode(fdsStringNode *current, int currentbit, int endbit);
+        int strobePin;   
+        int clockPin;    
+        int dataPin;     
+        int resredPin;    // resred, AKA OutputEnable or OE.  
+        int row_a;        // Every ledmatrix has 7 rows. 
+        int row_b;        // The hardware used a 3-to-8 encoder
+        int row_c;        // type 74HC238 (U4 in the scematics).  
+        int delay;
     public:
-        fdsScreen(); 
-        fdsString* addString(char initialValue[], int position);
+        fdsScreen(); //constructor
+        // Add a string at position. initialValue is a C-type string that
+        //will be set
+        fdsString* addString(char initialValue[], int position); 
+        fdsString* addString(fdsChar * value, int position); 
+        // Set the pins using the default values (and do some other initialisation stuff)
+        void setPins();
+        // Set the pins using custom values
+        void setPins(int p_strobePin, int p_clockPin, int p_dataPin, int p_row_c, int p_row_b, int p_row_a, int p_resredPin, int p_delay);
+        // If you have changed the text of one of the strings, you need to update it before it will get displayed
         void update();
+        // Make the display empty. This does not empty the strings and will be undone as soon as update() is called
         void zeroDisplay(); 
+        // output to the physical display
         void display();
-        int maxlength;
-        fdsString *first;
+        // The output that will be displayed
         byte output[7][35];
 
 };
-
-
 #endif
