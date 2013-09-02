@@ -6,6 +6,7 @@ Aansturen FDS132 LED matrix bord m.b.v. SPI.
 #include "fds132text.h"     
 
 fdsScreen mainScreen;
+fdsString *changeThisString;
 
 void setup() {   
 
@@ -21,12 +22,18 @@ void setup() {
     SPI.begin();  // start the SPI library
     SPI.setBitOrder(MSBFIRST);  //Code was written for this 
     initialiseLetters() ; // I haven't figured out the smart way to set all the letter variables to the value I want yet.
-    mainScreen.addString("Dat was lekker eten",0);
-    mainScreen.addString("Yeah! Echt Lekker",252);
+    mainScreen.addString("I love the arduino",0);
+    changeThisString = mainScreen.addString("a lot",90);
+    mainScreen.addString("-- Bart",225);
     mainScreen.update();
 }  
 void loop()  
 {  
     mainScreen.display();
+    if (millis()>10000){
+        changeThisString -> set("More then ever");
+        mainScreen.update();
+
+    }   
 }  
 
