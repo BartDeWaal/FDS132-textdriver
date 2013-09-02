@@ -31,7 +31,7 @@ void setup() {
     mySmiley.width=7;
 
 
-    mainScreen.addString(&mySmiley,155); //We have to pass the address of mySmiley
+    mainScreen.addString(&mySmiley,155); //We have to pass the address of mySmiley, not mySmiley itself
 
     mainScreen.update();
 }  
@@ -41,7 +41,6 @@ void loop()
     if (millis()>10000){
         changeThisString -> set("More then ever");
         mainScreen.update(); // if you don't update no new output buffer is calculated
-
     }   
 }  
 
