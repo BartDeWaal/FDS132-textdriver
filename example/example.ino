@@ -14,7 +14,7 @@ void setup() {
 
     // You can set diffent pins, see fds132text.h for the arguments - these are
     // convenient on ESP32:
-    mainScreen.setPins(12, 14, 13, 33, 25, 26, 27, 500);
+    mainScreen.setPins(12, 14, 13, 33, 25, 26, 27, 0);
 
     // I haven't figured out the smart way to set all the letter variables to the value I want yet.
     initialiseLetters();
