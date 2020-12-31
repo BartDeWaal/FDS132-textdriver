@@ -9,9 +9,15 @@ fdsString *changeThisString;
 
 fdsChar mySmiley;
 void setup() {   
-    mainScreen.setPins(); // Uses the default from Rudi Imbrechts guide on how to set up the pins.
-                          // You can set diffent pins, see fds132text.h for the arguments
-    initialiseLetters() ; // I haven't figured out the smart way to set all the letter variables to the value I want yet.
+    // Uses the default from Rudi Imbrechts guide on how to set up the pins.
+    //mainScreen.setPins();
+
+    // You can set diffent pins, see fds132text.h for the arguments - these are
+    // convenient on ESP32:
+    mainScreen.setPins(12, 14, 13, 33, 25, 26, 27, 500);
+
+    // I haven't figured out the smart way to set all the letter variables to the value I want yet.
+    initialiseLetters();
 
     mainScreen.addString("I love the arduino",0); // Add a string beginning at address 0 (the start of the screen)
     changeThisString = mainScreen.addString("a lot",90); // This one will start at the start of line 2
@@ -43,4 +49,3 @@ void loop()
         mainScreen.update(); // if you don't update no new output buffer is calculated
     }   
 }  
-
