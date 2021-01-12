@@ -2,6 +2,7 @@
 #define __FDS132_text_class__
 #include <SPI.h> 
 #include "font.h"
+#include "Arduino.h"
 
 // This is a character that our output function can use to write.
 // It has every row encoded in a byte, and we record the width of the byte

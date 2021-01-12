@@ -27,7 +27,7 @@ void fdsScreen::setPins(int p_strobePin, int p_clockPin, int p_dataPin, int p_ro
     pinMode (resredPin, OUTPUT);  
     digitalWrite (resredPin, HIGH);
     digitalWrite (strobePin, LOW); 
-    SPI.begin();  // start the SPI library
+    SPI.begin(clockPin, -1, dataPin);  // start the SPI library
     SPI.setBitOrder(MSBFIRST);  //Code was written for this bit Order
 }
 
@@ -244,4 +244,3 @@ void fdsStringNode::setEnd(){
     next = NULL;
 
 }
-
