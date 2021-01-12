@@ -186,16 +186,23 @@ void fdsScreen::display() //Display the current fdsScreen::output array
                  
     {   
         digitalWrite(strobePin, LOW);    // strobePin LOW so the LEDs don't change when we send the bits.
-        digitalWrite (resredPin, LOW);   // dim the display to prevent ghosting.  
-        setRow(row);
         for(int i=34; i>=0; i--){
             SPI.transfer(output[row][i]);
         };
-        digitalWrite(strobePin, HIGH);   // update the shiftregisters.  
-        digitalWrite (resredPin, HIGH);  // turn the display back on.  
-        delayMicroseconds(delay);         // pause, because otherwise it will update too quickly
+        digitalWrite(resredPin, LOW);   // dim the display to prevent ghosting.
+        digitalWrite(strobePin, HIGH);  // update the shiftregisters.
+        setRow(row);
+        digitalWrite(resredPin, HIGH);  // turn the display back on.
+        delayMicroseconds(delay);       // pause, because otherwise it will update too quickly
     }
-
+    // Make sure the last row it turned on for the same amount of time the rest are.
+    // We don't *really* need to do SPI here, but it's the easiest way to find the right
+    // amount of time to pause ;)
+    digitalWrite(strobePin, LOW);
+    for(int i=34; i>=0; i--){
+        SPI.transfer(output[0][i]);
+    };
+    digitalWrite(resredPin, LOW);
 }  
 
 // The LED screen only shows 1 (out of 7) rows at a time. This activates the row
